@@ -5,14 +5,16 @@ from flask import Flask
 # current module (__name__) as argument.
 app = Flask(__name__)
 oxygenFloat = 25.22
+pressure1 = 0.25
 
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
 # the associated function.
 @app.route('/<meter>/<value>')
-# URL is bound with valuePass() function.
+# ‘/’ URL is bound with valuePass() function.
 def valuePass(meter, value):
    global oxygenFloat
+   global pressure1
    if type(meter) != str:
         meter = str(meter)
    if type(value) != str:
@@ -20,8 +22,39 @@ def valuePass(meter, value):
    if meter == 'oxygen':
        if value != 'read':
             oxygenFloat = float(value)
-       return 'Oxygen value set to: %s' % str(oxygenFloat)
-   return 'Hello %s!' % value
+       ##return 'Oxygen value set to: %s' % str(oxygenFloat)
+   if meter == 'pressure1':
+       if value != 'read':
+           pressure1 = float(value)
+       ##return 'Pressure1 value set to: %s' % str(pressure1)    
+   ##return 'Non valid meter: %s' % meter
+   return dash()        
+
+@app.route('/dash')
+
+def dash():
+    global oxygenFloat
+    global pressure1
+    returning = 'Oxygen meter: %s' % str(oxygenFloat)
+    returning += ' Pressure1: %s' % str(pressure1)
+    return returning
+
+@app.route('/highPressure')
+
+def highPressure():
+    global oxygenFloat
+    global pressure1
+    pressure1 = 125.02
+    return dash()
+
+@app.route('/lowOxygen')
+
+def lowOxygen():
+    global oxygenFloat
+    global pressure1
+    oxygenFloat = 85.3
+    return dash()
+
 # main driver function
 if __name__ == '__main__':
 
