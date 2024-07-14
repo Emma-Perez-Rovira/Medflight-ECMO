@@ -10,7 +10,7 @@ oxygenFloat = 25.22
 # which tells the application which URL should call 
 # the associated function.
 @app.route('/<meter>/<value>')
-# ‘/’ URL is bound with hello_world() function.
+# URL is bound with valuePass() function.
 def valuePass(meter, value):
    global oxygenFloat
    if type(meter) != str:
